@@ -14,12 +14,12 @@ The remaining images become the COCO subset within our full dataset, as shown in
 We apply the same rules to Visual Genome, Conceptual Captions, and SBU Captions.
 
 <p align="center">
-  <img src="misc/splits.png" width="90%"/>
+  <img src="misc/splits.png" width="70%"/>
 </p>
 
 By running this code, we should get in-domain and out-of-domain data like the follows:
 <p align="center">
-  <img src="misc/statistics.png" width="90%"/>
+  <img src="misc/statistics.png" width="70%"/>
 </p>
 
 # Prepare Data

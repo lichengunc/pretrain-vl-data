@@ -2,7 +2,7 @@
 Prepare the pre-trained V+L Data, which includes COCO, Visual Genome, Conceptual Captions, and SBU Captions.
 
 # Note
-As specified in the appendix [UNITER](https://arxiv.org/pdf/1909.11740.pdf), our full pre-trained dataset is composed of four existing V+L datasets: COCO, Visual Genome, Conceptual Captions, and SBU Captions.
+As specified in the appendix of [UNITER](https://arxiv.org/pdf/1909.11740.pdf), our full pre-trained dataset is composed of four existing V+L datasets: COCO, Visual Genome, Conceptual Captions, and SBU Captions.
 The dataset collection is not simply combining them, as we need to make sure none of the downstream evaluation images are seen during pre-training.
 Among them, COCO is the most tricky one to clean, as several downstream tasks are built based on it.
 The following figure lists the splits from VQA, Image-Text Retrieval, COCO Captioning, RefCOCO/RefCOCO+/RefCOCOg, and the bottom-up top-down (BUTD) detection, all from COCO images.
@@ -46,14 +46,14 @@ $DATA_PATH
 Run the following scripts:
 ```bash
 # rule out RefCOCO's val+test and Flickr30K images.
-python tools/get_excluded_iids.py
+python prepro/get_excluded_iids.py
 
 # collect coco's captions
-python tools/collect_coco_captions.py
+python prepro/collect_coco_captions.py
 
 # collect VG's captions
-python tools/collect_vg_captions.py
+python prepro/collect_vg_captions.py
 
 # collect sbucaptions (TODO)
-python tools/collect_sbucaptions.py
+python prepro/collect_sbucaptions.py
 ```

@@ -1,7 +1,7 @@
 # Pretrain-VL-Data
-For collecting the Vision-and-Language (V+L) data for large-scale pre-training, perhaps one naive way is to merge all existing V+L datasets.
-However, it is not that trivial as we need to make sure the ``fairness" of downstream task evaluation.
-We need to make sure none of the testing images/sentences inside the downstream tasks are seen during our training stage.
+For collecting a large-scale Vision-and-Language (V+L) dataset for pre-training, one naive way could be merging all existing V+L datasets.
+However, it is not trivial as we need to preserve the ``fairness" when finetuning and evaluating on the downstream tasks -
+we should make sure none of the downstream testing images or sentences are seen during the pre-training.
 
 This code collects the pre-trained V+L Data from [COCO](http://cocodataset.org/#download), [Visual Genome](https://visualgenome.org/api/v0/api_home.html), [Conceptual Captions](https://ai.google.com/research/ConceptualCaptions), and [SBU Captions](http://www.cs.virginia.edu/~vicente/sbucaptions/), as how [UNITER](https://arxiv.org/pdf/1909.11740.pdf) does.
 
@@ -41,9 +41,11 @@ $DATA_PATH
 │   ├── refcoco
 │   ├── refcoco+
 │   └── refcocog
-└── vg
-    ├── image_data.json
-    └── region_descriptions.json
+├── vg
+│   ├── image_data.json
+│   └── region_descriptions.json
+├── sbu_captions
+└── conceptual_captions
 ```
 
 # Run scripts

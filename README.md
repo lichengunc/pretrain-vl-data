@@ -1,5 +1,9 @@
 # Pretrain-VL-Data
-Prepare the pre-trained V+L Data, which includes COCO, Visual Genome, Conceptual Captions, and SBU Captions.
+For collecting the Vision-and-Language (V+L) data for large-scale pre-training, perhaps one naive way is to merge all existing V+L datasets.
+However, it is not that trivial as we need to make sure the ``fairness" of downstream task evaluation.
+We need to make sure none of the testing images/sentences inside the downstream tasks are seen during our training stage.
+
+This code collects the pre-trained V+L Data from [COCO](http://cocodataset.org/#download), [Visual Genome](https://visualgenome.org/api/v0/api_home.html), [Conceptual Captions](https://ai.google.com/research/ConceptualCaptions), and [SBU Captions](http://www.cs.virginia.edu/~vicente/sbucaptions/), as how [UNITER](https://arxiv.org/pdf/1909.11740.pdf) does.
 
 # Note
 As specified in the appendix of [UNITER](https://arxiv.org/pdf/1909.11740.pdf), our full pre-trained dataset is composed of four existing V+L datasets: COCO, Visual Genome, Conceptual Captions, and SBU Captions.

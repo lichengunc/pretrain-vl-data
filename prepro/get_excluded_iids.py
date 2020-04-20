@@ -72,17 +72,17 @@ print(f"COCO\'s [karpathy_test] has {len(karpathy_test_iids)} images.")
 # coco session
 flickr30k_coco_iids = []
 flickr30k_vg_iids = []
-flickr30k_url_ids = set()
+flickr30k_url_ids_set = set()
 for url_id in open(osp.join(flickr_dir,
                    "flickr30k_entities", "train.txt"), "r").readlines():
-  flickr30k_url_ids.add(int(url_id))
+    flickr30k_url_ids_set.add(int(url_id))
 for url_id in open(osp.join(flickr_dir,
                    "flickr30k_entities", "val.txt"), "r").readlines():
-  flickr30k_url_ids.add(int(url_id))
+    flickr30k_url_ids_set.add(int(url_id))
 for url_id in open(osp.join(flickr_dir,
                    "flickr30k_entities", "test.txt"), "r").readlines():
-  flickr30k_url_ids.add(int(url_id))
-print(f"There are {len(flickr30k_url_ids)} flickr30k_url_ids.")
+    flickr30k_url_ids_set.add(int(url_id))
+print(f"There are {len(flickr30k_url_ids_set)} flickr30k_url_ids_set.")
 
 coco_image_data = json.load(open(osp.join(coco_dir, "annotations",
                             "instances_train2014.json")))["images"] + \
@@ -91,7 +91,7 @@ coco_image_data = json.load(open(osp.join(coco_dir, "annotations",
 for img in coco_image_data:
     # example: 'http://farm4.staticflickr.com/3153/2970773875_164f0c0b83_z.jpg'
     url_id = int(img["flickr_url"].split("/")[-1].split("_")[0])
-    if url_id in flickr30k_url_ids:
+    if url_id in flickr30k_url_ids_set:
         flickr30k_coco_iids.append(img["id"])
 print(f"{len(flickr30k_coco_iids)} coco images were found in Flickr30K.")
 
@@ -100,13 +100,23 @@ vg_image_data = json.load(open(osp.join(vg_dir, "image_data.json")))
 for img in vg_image_data:
   if img["flickr_id"] is not None:
     url_id = int(img["flickr_id"])
-    if url_id in flickr30k_url_ids:
+    if url_id in flickr30k_url_ids_set:
       flickr30k_vg_iids.append(img["image_id"])
 print(f"{len(flickr30k_vg_iids)} vg images were found in Flickr30K.")
 
-# # some random testing output
-# print(len(refer_val_coco_iids_set.intersection(refer_test_coco_iids_set)))
-# print(len(set(karpathy_val_iids).intersection(set(karpathy_test_iids))))
+# excluded_flickr_url_ids made by refer's val+test, karpathy's val+test, and
+# flickr30k. To be used to filter out the concurrent images in SBUCaptions.
+excluded_flickr_url_ids_set = set()
+cocoImgs = {img['id']: img for img in coco_image_data}
+for coco_id in list(refer_val_coco_iids_set) + \
+               list(refer_test_coco_iids_set) + \
+               karpathy_val_iids + karpathy_test_iids:
+    # example: 'http://farm4.staticflickr.com/3153/2970773875_164f0c0b83_z.jpg'
+    img = cocoImgs[coco_id]
+    url_id = int(img['flickr_url'].split('/')[-1].split('_')[0])
+    excluded_flickr_url_ids_set.add(url_id)
+excluded_flickr_url_ids_set |= flickr30k_url_ids_set  # also exclude flickr30k
+print(f"{len(excluded_flickr_url_ids_set)} flickr_url_ids are forbidden.")
 
 # Save
 output = {"refer_val_coco_iids": list(refer_val_coco_iids_set),
@@ -115,7 +125,8 @@ output = {"refer_val_coco_iids": list(refer_val_coco_iids_set),
           "flickr30k_vg_iids": flickr30k_vg_iids,
           "karpathy_train_iids": karpathy_train_iids,
           "karpathy_val_iids": karpathy_val_iids,
-          "karpathy_test_iids": karpathy_test_iids}
+          "karpathy_test_iids": karpathy_test_iids,
+          "excluded_flickr_url_ids": list(excluded_flickr_url_ids_set)}
 with open(f"{output_dir}/excluded_coco_vg_iids.json", "w") as f:
     json.dump(output, f)
 print("output/excluded_coco_vg_iids.json saved.")

@@ -17,7 +17,7 @@ We apply the same rules to Visual Genome, Conceptual Captions, and SBU Captions.
   <img src="misc/splits.png" width="70%"/>
 </p>
 
-By running this code, we should get in-domain and out-of-domain data like the follows:
+By running this code, we should be able to get the in-domain data as follows:
 <p align="center">
   <img src="misc/statistics.png" width="70%"/>
 </p>
@@ -53,7 +53,20 @@ python prepro/collect_coco_captions.py
 
 # collect VG's captions
 python prepro/collect_vg_captions.py
-
-# collect sbucaptions (TODO)
-python prepro/collect_sbucaptions.py
 ```
+
+# Citation
+
+If you find this code useful for your research, please consider citing:
+```
+@article{chen2019uniter,
+  title={Uniter: Learning universal image-text representations},
+  author={Chen, Yen-Chun and Li, Linjie and Yu, Licheng and Kholy, Ahmed El and Ahmed, Faisal and Gan, Zhe and Cheng, Yu and Liu, Jingjing},
+  journal={arXiv preprint arXiv:1909.11740},
+  year={2019}
+}
+```
+
+## License
+
+MIT

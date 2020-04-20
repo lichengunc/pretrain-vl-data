@@ -57,6 +57,9 @@ python prepro/collect_coco_captions.py
 
 # collect VG's captions
 python prepro/collect_vg_captions.py
+
+# collect SBU's captions
+python prepro/collect_sbu_captions.py
 ```
 
 # Citation

@@ -32,8 +32,7 @@ val_coco_iids_set = set(Excluded["karpathy_val_iids"])
 
 # excluded_vg_iids
 excluded_vg_iids_set = set()
-excluded_vg_iids_set = excluded_vg_iids_set.union(
-                        set(Excluded["flickr30k_vg_iids"])) # No flickr30k
+excluded_vg_iids_set |= set(Excluded["flickr30k_vg_iids"])  # no flickr30k
 for img in vg_image_data:
     if img["coco_id"] is not None and img["coco_id"] in excluded_coco_iids_set:
         excluded_vg_iids_set.add(img["image_id"])
@@ -65,7 +64,12 @@ for item in vg_caption_data:
             val_caps.append(data)
         else:
             train_caps.append(data)
-print(f"{len(train_caps)} train_caps and {len(val_caps)} val_caps collected.")
+
+# print stats
+num_train_images = len(set([cap["vg_id"] for cap in train_caps]))
+num_val_images = len(set([cap["vg_id"] for cap in val_caps]))
+print(f"{len(train_caps)} [train] captions ({num_train_images} images) and "
+      f"{len(val_caps)} [val] captions ({num_val_images} images) collected.")
 
 # save
 with open(osp.join(output_dir, "vg_train_captions.json"), "w") as f:

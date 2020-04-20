@@ -46,7 +46,12 @@ for cap in coco_caption_data:
         val_caps.append(data)
     else:
         train_caps.append(data)
-print(f"{len(train_caps)} [train], {len(val_caps)} [val] captions collected.")
+
+# print stats
+num_train_images = len(set([cap["coco_id"] for cap in train_caps]))
+num_val_images = len(set([cap["coco_id"] for cap in val_caps]))
+print(f"{len(train_caps)} [train] captions ({num_train_images} images) and "
+      f"{len(val_caps)} [val] captions ({num_val_images} images) collected.")
 
 # save
 with open(osp.join(output_dir, "coco_train_captions.json"), "w") as f:
